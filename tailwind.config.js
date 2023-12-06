@@ -6,5 +6,10 @@ module.exports = {
   theme: {
     extend: {},
   },
+    colors: {
+      
+      'netflix-gray': '#333333',
+      
+    },
   plugins: [],
 }
