@@ -28,7 +28,7 @@ const Login = () => {
     if (!isSignInForm) {
       //Sign Up Logic
 
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
@@ -37,6 +37,7 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          setErrorMessage(errorCode+"-"+errorMessage)
           // ..
         });
     } else {
