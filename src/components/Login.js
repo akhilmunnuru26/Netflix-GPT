@@ -2,15 +2,15 @@ import { useState, useRef } from "react";
 import Header from "./Header";
 
 import { checkValid } from "../utils/validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const email = useRef(null);
-  const password = useRef(null);
-  const fullName = useRef(null);
+  const email = useRef('');
+  const password = useRef('');
+  const fullName = useRef('');
 
   const toggleSignForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -32,6 +32,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          console.log("Sign up user creds ",user)
           // ...
         })
         .catch((error) => {
@@ -42,6 +43,20 @@ const Login = () => {
         });
     } else {
       //Sign In Logic
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+    // Signed in 
+      const user = userCredential.user;
+      console.log("Sign In user creds ",user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMessage(errorCode+"-"+errorMessage)
+    console.log("Sign In error Message ",errorCode,errorMessage)
+
+  });
     }
   };
 
