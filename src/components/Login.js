@@ -2,8 +2,10 @@ import { useState, useRef } from "react";
 import Header from "./Header";
 
 import { checkValid } from "../utils/validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -11,6 +13,8 @@ const Login = () => {
   const email = useRef('');
   const password = useRef('');
   const fullName = useRef('');
+
+  const navigate = useNavigate()
 
   const toggleSignForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -33,6 +37,18 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log("Sign up user creds ",user)
+            updateProfile(auth.currentUser, {
+            displayName: fullName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+            }).then(() => {
+            // Profile updated!
+              navigate("/browse")
+            // ...
+            }).catch((error) => {
+            // An error occurred
+            setErrorMessage(error.message)
+            // ...
+            });
+            
           // ...
         })
         .catch((error) => {
@@ -41,6 +57,7 @@ const Login = () => {
           setErrorMessage(errorCode+"-"+errorMessage)
           // ..
         });
+        
     } else {
       //Sign In Logic
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
@@ -48,6 +65,7 @@ const Login = () => {
     // Signed in 
       const user = userCredential.user;
       console.log("Sign In user creds ",user)
+      navigate("/browse")
     // ...
   })
   .catch((error) => {

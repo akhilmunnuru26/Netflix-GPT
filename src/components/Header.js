@@ -1,15 +1,128 @@
-import React from 'react'
+import React from "react";
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Header = () => {
-  return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10">
-        <img
-            src="https://res.cloudinary.com/dstuhdad3/image/upload/v1701592292/Netflix_Logo_PMS_qcf2nn.png"
-            alt="logo"
-            className="w-40 "
-        />
-    </div>
-  )
+//https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
 }
 
-export default Header
+const Header = () => {
+  const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+        navigate("/error");
+      });
+  };
+
+  return (
+    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between align-middle">
+      <div className="w-40">
+        <img
+          src="https://res.cloudinary.com/dstuhdad3/image/upload/v1701592292/Netflix_Logo_PMS_qcf2nn.png"
+          alt="logo"
+          className=""
+        />
+      </div>
+
+      {user && (
+        <div className="">
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ">
+                <img
+                  src="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg"
+                  alt=""
+                  className="w-12 h-12"
+                />
+                <ChevronDownIcon
+                  className="-mr-1 h-7 w-7 mt-5 text-lg text-white"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y  divide-gray-100 rounded-md bg-black shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <a
+                        href="#profile"
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-fuchsia-100"
+                            : "text-fuchsia-100",
+                          "block px-4 py-2 text-sm"
+                        )}
+                      >
+                        Profile
+                      </a>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <a
+                        href="#about"
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-fuchsia-100"
+                            : "text-fuchsia-100",
+                          "block px-4 py-2 text-sm"
+                        )}
+                      >
+                        About
+                      </a>
+                    )}
+                  </Menu.Item>
+                </div>
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <a
+                        href="#signout"
+                        onClick={handleSignOut}
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-fuchsia-100"
+                            : "text-fuchsia-100",
+                          "block px-4 py-2 text-sm"
+                        )}
+                      >
+                        Signout
+                      </a>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Header;

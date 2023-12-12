@@ -10,6 +10,10 @@ installed tailwind-css
 --> Intialize Firebase -> command: firebase init and select hosting
 -->  in hositing select public directory -> build, hosting to firebase (optionally) github option
 --> Firebase Deploy -> command: firebase deploy
+--> Implemented Sign up API & logic using firebase
+--> IMplemented Sign In API & logic  using firebase
+--> Setup the redux store, Created userSlice and added it to store,provided the store to app
+--> 
 
 
 
