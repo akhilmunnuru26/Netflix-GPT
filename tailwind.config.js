@@ -12,5 +12,8 @@ module.exports = {
       'netflix-text-color':'#eee'
       
     },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
 }

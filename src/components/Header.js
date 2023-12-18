@@ -53,8 +53,8 @@ const Header = () => {
   };
 
   return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between align-middle">
-      <div className="w-44">
+    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between align-middle my-0">
+      <div className="w-40 my-0">
         <img
           src={Logo}
           alt="logo"
@@ -63,7 +63,7 @@ const Header = () => {
       </div>
 
       {user && (
-        <div className="">
+        <div className="my-0">
           <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ">
