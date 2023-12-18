@@ -2,19 +2,25 @@ import { useState, useRef } from "react";
 import Header from "./Header";
 
 import { checkValid } from "../utils/validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { Background_logo } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const email = useRef('');
-  const password = useRef('');
-  const fullName = useRef('');
+  const email = useRef("");
+  const password = useRef("");
+  const fullName = useRef("");
 
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const toggleSignForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -32,49 +38,67 @@ const Login = () => {
     if (!isSignInForm) {
       //Sign Up Logic
 
-      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log("Sign up user creds ",user)
-            updateProfile(auth.currentUser, {
-            displayName: fullName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
-            }).then(() => {
-            // Profile updated!
-              navigate("/browse")
-            // ...
-            }).catch((error) => {
-            // An error occurred
-            setErrorMessage(error.message)
-            // ...
+          console.log("Sign up user creds ", user);
+          updateProfile(auth.currentUser, {
+            displayName: fullName.current.value,
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              // Profile updated!
+
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              setErrorMessage(error.message);
+              // ...
             });
-            
+
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode+"-"+errorMessage)
+          setErrorMessage(errorCode + "-" + errorMessage);
           // ..
         });
-        
     } else {
       //Sign In Logic
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
-      .then((userCredential) => {
-    // Signed in 
-      const user = userCredential.user;
-      console.log("Sign In user creds ",user)
-      navigate("/browse")
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    setErrorMessage(errorCode+"-"+errorMessage)
-    console.log("Sign In error Message ",errorCode,errorMessage)
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("Sign In user creds ", user);
 
-  });
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          console.log("Sign In error Message ", errorCode, errorMessage);
+        });
     }
   };
 
@@ -83,7 +107,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/c906271d-7184-4eec-83c9-b6d4c1a068ec/728874a6-eeda-400a-9bcf-a935a1408a4f/IN-en-20231127-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src={Background_logo}
           alt="bg-logo"
         />
       </div>
@@ -91,7 +115,7 @@ const Login = () => {
         onSubmit={(e) => e.preventDefault()}
         className="w-4/12 h-auto rounded-lg p-12  bg-black absolute text-white my-40 right-0 left-0 mx-auto bg-opacity-80"
       >
-        <h1 className="text-2xl mb-4">
+        <h1 className="text-3xl font-semibold mb-4">
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         <div className="mb-4">
@@ -119,14 +143,17 @@ const Login = () => {
         <p className="text-red-600 text-lg">{errorMessage}</p>
         <button
           onClick={handleButtonClick}
-          className="w-full p-3 my-4 rounded-md font-semibold text-xl bg-red-500"
+          className="w-full p-3 my-5 rounded-md font-semibold text-xl bg-red-500"
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
-        <p onClick={toggleSignForm} className="hover:underline cursor-pointer">
-          {isSignInForm
-            ? "New to Netflix? Sign Up now"
-            : "Already User? Sign In now"}
+        <p onClick={toggleSignForm} className="my-3">
+          <span className="text-[#737373] text-lg">
+            {isSignInForm ? "New to Netflix? " : "Already User? "}
+          </span>
+          <span className="text-white hover:underline cursor-pointer">
+            {isSignInForm ? "Sign up now" : "Sign In now"}
+          </span>
         </p>
       </form>
     </div>

@@ -1,0 +1,9 @@
+export const Background_logo = "https://assets.nflxext.com/ffe/siteui/vlv3/c906271d-7184-4eec-83c9-b6d4c1a068ec/728874a6-eeda-400a-9bcf-a935a1408a4f/IN-en-20231127-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+export const Logo = "https://res.cloudinary.com/dstuhdad3/image/upload/v1701592292/Netflix_Logo_PMS_qcf2nn.png"
+export const API_OPTIONS = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTRlMjBhN2YzMmM0ZTRkMmI0OTYyMzM5ZjNiYzNiMiIsInN1YiI6IjY1N2ZjZWY2OGRiYzMzMDg4OTk5NWJiNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.J9autEWa9u2i00HsEl6fyggE2-vJGjM5lXzmoJneykg'
+    }
+  };

@@ -9,6 +9,7 @@ module.exports = {
     colors: {
       
       'netflix-gray': '#333333',
+      'netflix-text-color':'#eee'
       
     },
   plugins: [],

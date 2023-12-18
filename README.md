@@ -13,7 +13,15 @@ installed tailwind-css
 --> Implemented Sign up API & logic using firebase
 --> IMplemented Sign In API & logic  using firebase
 --> Setup the redux store, Created userSlice and added it to store,provided the store to app
---> 
+--> Updated user's name, built signout button and feature
+--> Fetch movies from TMDb 
+--> Bug Fix update user name
+--> Bug fix routing redirection if login cannot access login page vice versa
+--> Implemented Hygiene pratice unsubscribe authonstatechange event listener when the component unmounts
+--> Create a utils --> constants.js file and add hardcoded values to the const
+--> created an account,registered application in TMDB,in Documentation movie list --> now playing --> called now playing api 
+--> created a custom hook folder src --> hooks --> useNowPlayingMovies.js and added fetching logic in it.
+--> Always maintain modular coding i,e spliting the code in small junks
 
 
 

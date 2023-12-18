@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
+import { Logo } from "../utils/constants";
 
 //https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg
 
@@ -16,12 +18,33 @@ function classNames(...classes) {
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch()
+  
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in
+          const {uid,email,displayName,photoURL} = user;
+          dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
+          navigate('/browse')
+          
+        } else {
+          // User is signed out
+          dispatch(removeUser())
+          navigate('/')
+          
+        }
+      });
+
+      return() => unsubscribe()
+}, [])
 
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        navigate("/");
+        
       })
       .catch((error) => {
         // An error happened.
@@ -31,9 +54,9 @@ const Header = () => {
 
   return (
     <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between align-middle">
-      <div className="w-40">
+      <div className="w-44">
         <img
-          src="https://res.cloudinary.com/dstuhdad3/image/upload/v1701592292/Netflix_Logo_PMS_qcf2nn.png"
+          src={Logo}
           alt="logo"
           className=""
         />
