@@ -2,7 +2,7 @@ import MovieCard from "./MovieCard";
 import '../App.css'
 
 const MovieList = ({ title, movies }) => {
-  console.log(movies);
+ 
   return (
     <div className="px-12  text-white">
       <h1 className="text-2xl py-4">{title}</h1>

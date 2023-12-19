@@ -16,7 +16,7 @@ const language = {
         searchPlaceHolder:"இன்று நீங்கள் என்ன பார்க்க விரும்புகிறீர்கள்?",
     },
     kannada:{
-        searchText:"ಹುಡುಕಿ Kannada",
+        searchText:"ಹುಡುಕಿ",
         searchPlaceHolder:"ಇಂದು ನೀವು ಏನನ್ನು ವೀಕ್ಷಿಸಲು ಬಯಸುತ್ತೀರಿ?",
     },
     spanish:{

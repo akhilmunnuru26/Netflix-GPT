@@ -47,3 +47,4 @@ export const API_OPTIONS = {
     }
 
   ] 
+  export const OPENAI_KEY = "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"

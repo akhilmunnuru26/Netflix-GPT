@@ -22,6 +22,9 @@ installed tailwind-css
 --> created an account,registered application in TMDB,in Documentation movie list --> now playing --> called now playing api 
 --> created a custom hook folder src --> hooks --> useNowPlayingMovies.js and added fetching logic in it.
 --> Always maintain modular coding i,e spliting the code in small junks
+--> Added popular,upcoming,top rated movies api's and slices.
+--> built toggle feature of searchGpt 
+--> Added language constants and language slice to redux store and implemented multilanguagal search bar of GptSearch Bar.
 
 
 
