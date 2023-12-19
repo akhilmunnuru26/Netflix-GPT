@@ -7,9 +7,9 @@ const MainContainer = () => {
     const movies = useSelector(store => store.movies?.nowPlayingMovies)
 
     if (!movies) return; // early return
-    //const index = Math.floor(Math.random() * 10);
+    const index = Math.floor(Math.random() * 10);
 
-    const mainMovie = movies[1]
+    const mainMovie = movies[index]
     
     const {original_title,overview,id} = mainMovie
   

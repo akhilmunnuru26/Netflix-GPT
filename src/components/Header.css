@@ -1,0 +1,9 @@
+.search-button-container{
+    display:flex;
+    align-items:center;
+}
+
+.icons-container {
+    display:flex;
+    align-items:center;
+}

@@ -7,7 +7,11 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import {toggleGptSearch} from '../utils/gptSlice'
 import { Logo } from "../utils/constants";
+import { IoSearchOutline } from "react-icons/io5";
+import { SupportedLanguages } from "../utils/constants";
+import './Header.css'
 
 //https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg
 
@@ -40,6 +44,10 @@ const Header = () => {
       return() => unsubscribe()
 }, [])
 
+  const handleGptSearch = () => {
+      dispatch(toggleGptSearch())
+  }
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -63,7 +71,16 @@ const Header = () => {
       </div>
 
       {user && (
-        <div className="my-0">
+        <>
+        
+        <div className="my-0 icons-container">
+        <button onClick={handleGptSearch} className="search-button-container mx-4  text-white hover:underline cursor-pointer hover:text-opacity-70">
+          <IoSearchOutline className=" text-xl mr-2"/>
+            GPT Search
+        </button>
+        <select className="bg-gray-800 mx-2 py-1 px-3 rounded text-white">
+          {SupportedLanguages.map(lang => <option  key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
+        </select>
           <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ">
@@ -143,6 +160,7 @@ const Header = () => {
             </Transition>
           </Menu>
         </div>
+        </>
       )}
     </div>
   );
