@@ -25,6 +25,7 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
+  const lang = useSelector((store) => store.config.lang)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const Header = () => {
             {showGpt && (
               <select
                 onChange={handleChangeLanguage}
+                value={lang}
                 className="bg-gray-800 mx-2 py-1 px-3 rounded text-white"
               >
                 {SupportedLanguages.map((lang) => (
