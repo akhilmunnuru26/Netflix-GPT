@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { Fragment } from "react";
+
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, removeUser } from "../utils/userSlice";
+import { addUser, removeUser} from "../utils/userSlice";
 import { toggleGptSearch } from "../utils/gptSlice";
+import {toggleShowMovies,toggleProfile} from '../utils/movieSlice'
 import { Logo } from "../utils/constants";
 import { IoSearchOutline } from "react-icons/io5";
 import { SupportedLanguages } from "../utils/constants";
@@ -25,7 +27,11 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
-  const lang = useSelector((store) => store.config.lang)
+  const lang = useSelector((store) => store.config.lang);
+  const showMovieSlice = useSelector((store) => store.movies)
+  const showMovies = showMovieSlice.showMovies
+  const showProfile = showMovieSlice.showProfile
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,24 +73,37 @@ const Header = () => {
       });
   };
 
+  const handleShowMovies = () => {
+    dispatch(toggleShowMovies())
+  }
+
   const handleChangeLanguage = (e) => {
     dispatch(changeLanguage(e.target.value));
   };
 
+
+
   return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full flex justify-between align-middle my-0">
-      <div className="w-40 my-0">
-        <img src={Logo} alt="logo" className="" />
+    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-10  flex  flex-row justify-between align-middle my-0">
+      <div className="flex align-middle">
+        <div className="w-20 md:w-40 md:my-0 ">
+          <img src={Logo} alt="logo" className="" />
+        </div>
       </div>
 
       {user && (
         <>
+          
           <div className="my-0 icons-container">
+           { !showProfile && <>
+          <button onClick={handleShowMovies} className="mx-4 hover:border-red-700 hover:border rounded p-2">
+            <h1 className="text-white hover:opacity-80 text-lg  cursor-pointer">{showMovies ? "TV Shows":"Movies"}</h1>
+          </button>
             {showGpt && (
               <select
                 onChange={handleChangeLanguage}
                 value={lang}
-                className="bg-gray-800 mx-2 py-1 px-3 rounded text-white"
+                className="bg-gray-800  md:mx-2 md:py-1 md:px-3 rounded text-white"
               >
                 {SupportedLanguages.map((lang) => (
                   <option key={lang.identifier} value={lang.identifier}>
@@ -95,30 +114,30 @@ const Header = () => {
             )}
             <button
               onClick={handleGptSearch}
-              className="search-button-container bg-gray-800  mx-2 py-1 px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70"
+              className="search-button-container invisible md:visible md:text-lg text-sm bg-gray-800  md:mx-2 md:py-1 md:px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70"
             >
               {showGpt ? (
                 <>
-                  <BiMoviePlay className=" text-xl mr-2" /> Home
+                  <BiMoviePlay className=" text-sm md:text-xl mr-2" /> Home
                 </>
               ) : (
                 <>
-                  <IoSearchOutline className=" text-xl mr-2" />
+                  <IoSearchOutline className="text-sm md:text-xl mr-2" />
                   GPT Search
                 </>
               )}
             </button>
-
+            </>}
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ">
                   <img
                     src="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg"
                     alt=""
-                    className="w-12 h-12"
+                    className="md:w-12 md:h-12 w-5 h-5"
                   />
                   <ChevronDownIcon
-                    className="-mr-1 h-7 w-7 mt-5 text-lg text-white"
+                    className="-mr-1 h-4 mt-2 -ml-1 md:h-7 Md:w-7 md:mt-5 md:text-lg text-sm text-white"
                     aria-hidden="true"
                   />
                 </Menu.Button>
@@ -137,8 +156,10 @@ const Header = () => {
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
+                        
                         <a
                           href="#profile"
+                          onClick={() => dispatch(toggleProfile())}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-fuchsia-100"
@@ -146,8 +167,11 @@ const Header = () => {
                             "block px-4 py-2 text-sm"
                           )}
                         >
-                          Profile
+                          
+                           {showProfile ? 'Home':'Profile'}
+                          
                         </a>
+                        
                       )}
                     </Menu.Item>
                     <Menu.Item>

@@ -8,7 +8,7 @@ export const API_OPTIONS = {
     }
   };
 
-  export const MOVIES_URL = "https://image.tmdb.org/t/p/w500/"
+  export const MOVIES_URL = "https://image.tmdb.org/t/p/w500"
   export const SupportedLanguages = [
     {
       identifier:"en",
@@ -48,5 +48,6 @@ export const API_OPTIONS = {
 
   ] 
   export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY
+  export const TVSHOWS_URL = "https://api.themoviedb.org/3/tv/{series_id}"
 
  

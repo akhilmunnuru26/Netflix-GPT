@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNowPlayingMovies } from "../utils/movieSlice";
 
 const useNowPlayingMovies = () => {
+ 
   useEffect(() => {
     !nowPlayingMovies && getNowPLayingMoviesList();
   }, []);

@@ -4,11 +4,10 @@ import MovieCard from "./MovieCard";
 import '../index.css'
 
 
-const MovieList = ({id, title, movies }) => {
+const TvList = ({id, title, tvShows }) => {
 
 
 
-  
  const handleScroll = (direction) => {
    const scrollContainer = document.getElementById(`movie-list-${id}`);
    const scrollWidth = scrollContainer.scrollWidth;
@@ -26,7 +25,8 @@ const MovieList = ({id, title, movies }) => {
      behavior: "smooth",
    });
  };
-  
+
+  console.log("IN TVLIst Tv Shows: ",tvShows)
  
   return (
     <div className="px-8 text-white">
@@ -57,11 +57,11 @@ const MovieList = ({id, title, movies }) => {
           style={{ scrollbarWidth: "none" }}
         >
           <div className=" flex ">
-            {movies?.map((movie) => (
+            {tvShows?.map((tvShow) => (
               <MovieCard
-                key={movie.id}
-                posterPath={movie?.poster_path}
-                movie={movie}
+                key={tvShow.id}
+                posterPath={tvShow?.poster_path}
+                movie={tvShow}
               />
             ))}
           </div>
@@ -90,4 +90,4 @@ const MovieList = ({id, title, movies }) => {
   );
 };
 
-export default MovieList;
+export default TvList;

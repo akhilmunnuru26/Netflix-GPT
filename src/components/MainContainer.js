@@ -4,18 +4,22 @@ import VideoBackground from "./VideoBackground"
 
 const MainContainer = () => {
 
+  
+
     const movies = useSelector(store => store.movies?.nowPlayingMovies)
+    const clickedMovie = useSelector(store => store.movies.clickedMovie)
 
     if (!movies) return; // early return
-    const index = Math.floor(Math.random() * 10);
+   //const index = Math.floor(Math.random() * 5);
 
-    const mainMovie = movies[index]
+
+    const mainMovie = clickedMovie ?clickedMovie : movies[0]
     
     const {original_title,overview,id} = mainMovie
   
 
   return (
-    <div className="mt-0">
+    <div className="mt-0 ">
         <VideoTitle title={original_title} overview={overview}/>
         <VideoBackground movieId={id}/>
       </div>

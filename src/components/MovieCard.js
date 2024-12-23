@@ -1,10 +1,25 @@
+import { useDispatch, useSelector } from "react-redux";
+//import useMovieTrailer from "../hooks/useMovieTrailer";
 import { MOVIES_URL } from "../utils/constants"
+import { addClickedMovie } from "../utils/movieSlice";
 
 
-const MovieCard = ({posterPath}) => {
+const MovieCard = ({posterPath,movie}) => {
+  const dispatch = useDispatch()
+  const showGpt = useSelector(store => store.gpt.showGptSearch)
   if (!posterPath) return null;
+
+  
+  
+
+  const handleClickedMovie = () => {
+    !showGpt && dispatch(addClickedMovie(movie))
+    
+  }
+    
+
   return (
-    <div className="w-36 pr-4">
+    <div onClick={handleClickedMovie} className="md:w-36  first-letter:  md:mx-4  w-20  cursor-pointer object-cover">
         <img
             src={MOVIES_URL + posterPath}
             alt={`${posterPath}`}
