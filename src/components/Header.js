@@ -5,17 +5,18 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser} from "../utils/userSlice";
 import { toggleGptSearch } from "../utils/gptSlice";
-import {toggleShowMovies,toggleProfile} from '../utils/movieSlice'
+import {toggleShowMovies,toggleProfile, addClickedMovie} from '../utils/movieSlice'
 import { Logo } from "../utils/constants";
 import { IoSearchOutline } from "react-icons/io5";
 import { SupportedLanguages } from "../utils/constants";
 import "./Header.css";
 import { changeLanguage } from "../utils/configSlice";
 import { BiMoviePlay } from "react-icons/bi";
+import { addNowPlayingTvShows } from "../utils/tvSlice";
 
 //https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg
 
@@ -47,7 +48,16 @@ const Header = () => {
             photoURL: photoURL,
           })
         );
-        navigate("/browse");
+        if (showMovies) {
+          navigate("/browse/playing")
+          navigate("/browse")
+        } else {
+          navigate("/browse/Tv")
+        }
+         
+        
+        
+        
       } else {
         // User is signed out
         dispatch(removeUser());
@@ -66,6 +76,8 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        dispatch(removeUser());
+        
       })
       .catch((error) => {
         // An error happened.
@@ -74,8 +86,25 @@ const Header = () => {
   };
 
   const handleShowMovies = () => {
+    // if (!showMovies) {
+    //   dispatch(addNowPlayingTvShows(null));
+    // }
+
+    navigate("/browse")
     dispatch(toggleShowMovies())
+    dispatch(addClickedMovie(null));
+    
   }
+
+  const handleTvShows= () => {
+    // if (!showMovies) {
+    //   dispatch(addNowPlayingTvShows(null));
+    // }
+  dispatch(addClickedMovie(null));
+    // navigate("/browse/Tv");
+    dispatch(toggleShowMovies());
+  };
+
 
   const handleChangeLanguage = (e) => {
     dispatch(changeLanguage(e.target.value));
@@ -93,41 +122,80 @@ const Header = () => {
 
       {user && (
         <>
-          
           <div className="my-0 icons-container">
-           { !showProfile && <>
-          <button onClick={handleShowMovies} className="mx-4 hover:border-red-700 hover:border rounded p-2">
-            <h1 className="text-white hover:opacity-80 text-lg  cursor-pointer">{showMovies ? "TV Shows":"Movies"}</h1>
-          </button>
-            {showGpt && (
-              <select
-                onChange={handleChangeLanguage}
-                value={lang}
-                className="bg-gray-800  md:mx-2 md:py-1 md:px-3 rounded text-white"
-              >
-                {SupportedLanguages.map((lang) => (
-                  <option key={lang.identifier} value={lang.identifier}>
-                    {lang.name}
-                  </option>
-                ))}
-              </select>
+            {(
+              <>
+                {!showProfile && (
+                  <>
+                    <Link
+                      className="rounded-md mx-1 bg-transparent hover:bg-transparent outline-none text-lg cursor-pointer relative"
+                      to="/browse"
+                      onClick={handleShowMovies}
+                    >
+                      <button className="rounded p-2 bg-transparent hover:bg-transparent outline-none">
+                        <h1 className="text-white relative hover:text-opacity-60 before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:text-white hover:before:border-red-500 hover:before:scale-x-100  transition duration-300 ease-in-out">
+                          Movies
+                        </h1>
+                      </button>
+                    </Link>
+
+                    <Link
+                      className="mx-2  rounded-md bg-transparent hover:bg-transparent outline-none text-lg cursor-pointer relative"
+                      to="/browse/Tv"
+                      onClick={handleTvShows}
+                    >
+                      <button className="rounded p-2 bg-transparent hover:bg-transparent outline-none">
+                        <h1 className="text-white hover:text-opacity-60 p-0 relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:text-white hover:before:border-red-500 hover:before:scale-x-100  transition duration-300 ease-in-out">
+                          Tv Shows
+                        </h1>
+                      </button>
+                    </Link>
+                  </>
+                  
+                  
+
+
+                    
+                  
+                )}
+                
+                { }
+                {showGpt && (
+                  <select
+                    onChange={handleChangeLanguage}
+                    value={lang}
+                    className="bg-gray-800  md:mx-1 md:py-1 md:px-3 rounded text-white"
+                  >
+                    {SupportedLanguages.map((lang) => (
+                      <option key={lang.identifier} value={lang.identifier}>
+                        {lang.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                
+                <button
+                  onClick={handleGptSearch}
+                  className="search-button-container invisible md:visible md:text-lg text-sm bg-transparent  md:mx-2 md:py-2 md:px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70 relative"
+                >
+                  {showGpt ? (
+                    <>
+                      <BiMoviePlay className=" text-sm md:text-xl mr-2" />
+                      <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
+                        Home
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <IoSearchOutline className="text-sm md:text-xl mr-2" />
+                      <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
+                        GPT Search
+                      </span>
+                    </>
+                  )}
+                </button>
+              </>
             )}
-            <button
-              onClick={handleGptSearch}
-              className="search-button-container invisible md:visible md:text-lg text-sm bg-gray-800  md:mx-2 md:py-1 md:px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70"
-            >
-              {showGpt ? (
-                <>
-                  <BiMoviePlay className=" text-sm md:text-xl mr-2" /> Home
-                </>
-              ) : (
-                <>
-                  <IoSearchOutline className="text-sm md:text-xl mr-2" />
-                  GPT Search
-                </>
-              )}
-            </button>
-            </>}
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ">
@@ -156,10 +224,12 @@ const Header = () => {
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
-                        
                         <a
-                          href="#profile"
-                          onClick={() => dispatch(toggleProfile())}
+                          href=""
+                          onClick={() => {
+                            navigate("/profile")
+                            dispatch(toggleProfile())
+                          }}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-fuchsia-100"
@@ -167,11 +237,8 @@ const Header = () => {
                             "block px-4 py-2 text-sm"
                           )}
                         >
-                          
-                           {showProfile ? 'Home':'Profile'}
-                          
+                          {showProfile ? "Home" : "Profile"}
                         </a>
-                        
                       )}
                     </Menu.Item>
                     <Menu.Item>

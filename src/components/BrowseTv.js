@@ -1,3 +1,18 @@
+// import React from 'react'
+// import TvPageMainCointainer from './TvPage';
+// import TvShowSecondary from './TvShowSecondary';
+
+// const BrowseTv = () => {
+//   return (
+//     <div>
+//       <TvPageMainCointainer />
+//       <TvShowSecondary />
+//     </div>
+//   );
+// }
+
+// export default BrowseTv
+
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -17,43 +32,45 @@ import usePopularTvShows from "../hooks/usePopularTvShows";
 import useTopRatedTvShows from "../hooks/useTopRatedTvShows";
 import Profile from "./Profile";
 
-const Browse = () => {
-  useNowPlayingMovies();
-  usePopularMovies();
-  useUpcomingMovies();
-  useTopRatedMovies();
-  
+const BrowseTv = () => {
+//   useNowPlayingMovies();
+//   usePopularMovies();
+//   useUpcomingMovies();
+//   useTopRatedMovies();
+  useNowPlayingTvShows();
+  usePopularTvShows();
+  useTopRatedTvShows();
 
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
   const movies = useSelector((store) => store.movies);
-  const showMovies = movies.showMovies
-  const showProfile = movies.showProfile
-  
+  const showMovies = movies.showMovies;
+  const showProfile = movies.showProfile;
+
   return (
     <div>
       <Header />
-      
+      {showProfile ? (
+        <Profile />
+      ) : (
         <>
           {showGpt ? (
             <GPTSearch />
           ) : (
             <>
-              
-                <>
-                  <MainContainer />
-                  <SecondaryContainer />
-                </>
-               
-              
+              <div>
+                 <TvPageMainCointainer />
+                 <TvShowSecondary />
+            
+              </div>
             </>
           )}
           <div className="">
             <Footer />
           </div>
         </>
-      
+      )}
     </div>
   );
 };
 
-export default Browse;
+export default BrowseTv;

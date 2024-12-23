@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { OPENAI_KEY } from "./constants"; 
 
 const gptSlice = createSlice({
     name:"gpt",
@@ -6,7 +7,7 @@ const gptSlice = createSlice({
         showGptSearch:false,
         gptSuggestedMovies:null,
         gptSearchResults:null,
-        openaikey:null,
+        openaikey:OPENAI_KEY,
     },
     reducers:{
         toggleGptSearch:(state,action) => {

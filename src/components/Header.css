@@ -7,3 +7,31 @@
     display:flex;
     align-items:center;
 }
+
+
+
+.animate-shine-top {
+  animation: shine-top 0.5s forwards;
+}
+
+.animate-shine-left {
+  animation: shine-left 0.5s 0.2s forwards;
+}
+
+@keyframes shine-top {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes shine-left {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}

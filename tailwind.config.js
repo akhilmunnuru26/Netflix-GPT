@@ -4,7 +4,16 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        shine: "shine 1s",
+      },
+      keyframes: {
+        shine: {
+          "100%": { left: "125%" },
+        },
+      },
+    },
   },
     colors: {
       

@@ -10,18 +10,18 @@ const MainContainer = () => {
     const clickedMovie = useSelector(store => store.movies.clickedMovie)
 
     if (!movies) return; // early return
-   //const index = Math.floor(Math.random() * 5);
+  //  const index = Math.floor(Math.random() * 5);
 
 
-    const mainMovie = clickedMovie ?clickedMovie : movies[0]
+    const mainMovie = clickedMovie !== null ?clickedMovie : movies[0]
     
     const {original_title,overview,id} = mainMovie
   
 
   return (
     <div className="mt-0 ">
-        <VideoTitle title={original_title} overview={overview}/>
-        <VideoBackground movieId={id}/>
+      <VideoTitle movieId={id} title={original_title} overview={overview}/>
+      <VideoBackground movieId={id}/>
       </div>
   )
 }

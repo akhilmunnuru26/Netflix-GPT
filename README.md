@@ -25,7 +25,7 @@ installed tailwind-css
 --> Added popular,upcoming,top rated movies api's and slices.
 --> built toggle feature of searchGpt 
 --> Added language constants and language slice to redux store and implemented multilanguagal search bar of GptSearch Bar.
-
+--> Added Redux-Persist package for persistance of data even i refresh the page the data in the store will be persist.
 
 
 
@@ -46,4 +46,137 @@ After Authentication
 NetflixGPT page
 --> Search Bar Page
 -->Movie Suggestions
+--> Redux Persist
 
+
+
+// <Link
+                  //   className="rounded-md bg-transparent hover:bg-transparent outline-none text-lg cursor-pointer relative"
+                  //   to="/browse"
+                  //   onClick={handleShowMovies}
+                  // >
+                  //   <button className="mx-2 rounded p-2 bg-transparent hover:bg-transparent outline-none">
+                  //     <h1 className="text-white relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:text-white hover:before:border-red-500 hover:before:scale-x-100">
+                  //       Movies
+                  //     </h1>
+                  //   </button>
+                  // </Link>
+
+                   // <Link
+                  //   className="rounded-mdbg-transparent hover:bg-transparent outline-none text-lg cursor-pointer relative"
+                  //   to="/browse/Tv"
+                  //   onClick={handleTvShows}
+                  // >
+                  //   <button className="bg-transparent hover:bg-transparent outline-none mx-2 rounded p-2">
+                  //     <h1 className="text-white relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-white before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:scale-x-100">
+                  //       Tv Shows
+                  //     </h1>
+                  //   </button>
+                  // </Link>
+
+
+
+
+
+                  //video.title
+                   playing ? (
+      <div
+        className={`${showTitle ? 'visible' : 'invisible'} w-screen aspect-video md:pt-[22%] md:px-16 md:mb-10 pt-[30%] px-8 absolute text-white bg-gradient-to-r from-black`}
+      >
+        <h1 className="md:text-4xl  text-sm font-bold">{title}</h1>
+        <p className={`  md:py-4 text-sm md:text-base md:w-2/6 w-3/4`}>{overview.substring(0, 450)}</p>
+        <div className="flex">
+          <button onClick={handleClickedMovie} className="icons-container w-24 h-auto text-center bg-white text-black py-1 px-3 text-lg rounded mr-4 hover:bg-opacity-80">
+            <FaPlay className="text-sm mx-2" /> Play
+          </button>
+          <button className="w-auto h-auto text-center bg-gray-500 text-white md:py-1 md:px-3 opacity-80 md:text-lg rounded text-xs">
+            More Info
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div className="w-screen aspect-video md:pt-[22%] md:px-16 md:mb-10 pt-[30%] px-8 absolute text-white bg-gradient-to-r from-black">
+        <h1 className="md:text-4xl  text-sm font-bold">{title}</h1>
+        <p className="invisible md:visible md:py-4 text-sm md:text-base md:w-2/6 w-3/4">{overview.substring(0, 450)}</p>
+        <div className="flex">
+          <button onClick={handleClickedMovie} className="icons-container w-24 h-auto text-center bg-white text-black py-1 px-3 text-lg rounded mr-4 hover:bg-opacity-80">
+            <FaPlay className="text-sm mx-2" /> Play
+          </button>
+          <button className="w-auto h-auto text-center bg-gray-500 text-white md:py-1 md:px-3 opacity-80 md:text-lg rounded text-xs">
+            More Info
+          </button>
+        </div>
+      </div>
+    )
+  );
+// import { configureStore } from '@reduxjs/toolkit';
+// import userReducer from './userSlice';
+// import moviesReducer from './movieSlice';
+// import gptReducer from './gptSlice';
+// import configReducer from './configSlice';
+// import tvShowsReducer from './tvSlice';
+// import { persistStore, persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
+
+// const persistConfig = {
+//     key: 'root',
+//     storage,
+// };
+
+// const persistedUserReducer = persistReducer(
+//     {
+//         key: 'user',
+//         storage,
+//     },
+//     userReducer
+// );
+
+// const persistedMoviesReducer = persistReducer(
+//     {
+//         key: 'movies',
+//         storage,
+//     },
+//     moviesReducer
+// );
+
+// const persistedGptReducer = persistReducer(
+//     {
+//         key: 'gpt',
+//         storage,
+//     },
+//     gptReducer
+// );
+
+// const persistedConfigReducer = persistReducer(
+//     {
+//         key: 'config',
+//         storage,
+//     },
+//     configReducer
+// );
+
+// const persistedTvShowsReducer = persistReducer(
+//     {
+//         key: 'tvShows',
+//         storage,
+//     },
+//     tvShowsReducer
+// );
+
+// const appStore = configureStore({
+//     reducer: {
+//         user: persistedUserReducer,
+//         movies: persistedMoviesReducer,
+//         gpt: persistedGptReducer,
+//         config: persistedConfigReducer,
+//         tvShows: persistedTvShowsReducer,
+//     },
+//     middleware: (getDefaultMiddleware) =>
+//         getDefaultMiddleware({
+//             serializableCheck: false,
+//         }),
+// });
+
+// export const persistor = persistStore(appStore);
+
+// export default appStore;

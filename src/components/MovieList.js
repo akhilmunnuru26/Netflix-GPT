@@ -53,10 +53,10 @@ const MovieList = ({id, title, movies }) => {
         </button>
         <div
           id={`movie-list-${id}`}
-          className="movie-list-container flex  overflow-x-auto "
+          className="movie-list-container flex overflow-y-hidden overflow-x-auto "
           style={{ scrollbarWidth: "none" }}
         >
-          <div className=" flex ">
+          <div className=" flex">
             {movies?.map((movie) => (
               <MovieCard
                 key={movie.id}

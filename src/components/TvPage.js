@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux"
 import VideoTitle from "./VideoTitle"
-import VideoBackground from "./VideoBackground"
+// import VideoBackground from "./VideoBackground"
+import TvVideoBackground from "./TvVideoBackground"
+import TvVideoTitle from "./TvVideoTitle"
 
 const TvPageMainCointainer = () => {
 
@@ -12,7 +14,7 @@ const TvPageMainCointainer = () => {
    //const index = Math.floor(Math.random() * 5);
 
 
-     const mainMovie = clickedMovie ?clickedMovie : tvShows[0]
+     const mainMovie = clickedMovie !== null ?clickedMovie : tvShows[0]
     console.log("Tv Shows",tvShows)
     
     const {name,overview,id} = mainMovie
@@ -22,8 +24,8 @@ const TvPageMainCointainer = () => {
 
   return (
     <div className="mt-0">
-        <VideoTitle title={name} overview={overview}/>
-        <VideoBackground movieId={id}/>
+        <TvVideoTitle title={name} overview={overview}/>
+        <TvVideoBackground movieId={id}/>
       </div>
   )
 }

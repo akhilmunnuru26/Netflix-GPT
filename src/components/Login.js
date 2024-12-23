@@ -28,9 +28,9 @@ const Login = () => {
 
   const handleButtonClick = () => {
     const message = checkValid(
-      email.current.value,
-      password.current.value,
-      fullName.current.value
+      email.current?.value,
+      password.current?.value,
+      fullName.current?.value
     );
     setErrorMessage(message);
     if (message) return;
@@ -81,6 +81,8 @@ const Login = () => {
         });
     } else {
       //Sign In Logic
+     
+      
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -101,6 +103,8 @@ const Login = () => {
         });
     }
   };
+
+
 
   return (
     <div>

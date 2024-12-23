@@ -7,7 +7,11 @@ import { addNowPlayingTvShows } from "../utils/tvSlice";
 const useNowPlayingTvShows = () => {
  
   useEffect(() => {
-    !nowPlayingTvShows && getNowPLayingTvShowsList();
+    // !nowPlayingTvShows && getNowPLayingTvShowsList();
+    getNowPLayingTvShowsList();
+    return (() => {
+      getNowPLayingTvShowsList()
+    })
   }, []);
 
   const nowPlayingTvShows = useSelector(store => store.tvShows.nowPlayingTvShows)
