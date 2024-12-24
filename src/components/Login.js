@@ -9,18 +9,24 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { Background_logo } from "../utils/constants";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const user = useSelector(store => store?.user?.user)
   const email = useRef("");
   const password = useRef("");
   const fullName = useRef("");
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
+  if (user) {
+    return <Navigate to="/browse" replace />;
+  }
 
   const toggleSignForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -92,6 +98,8 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("Sign In user creds ", user);
+          navigate("/browse")
+          
 
           // ...
         })

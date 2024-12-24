@@ -11,6 +11,7 @@ const Profile = () => {
   const handleBackHomePage = () => {
    
     navigate("/browse")
+    dispatch(toggleProfile())
   }  
 
   return (

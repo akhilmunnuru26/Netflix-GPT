@@ -1,51 +1,88 @@
 import { useSelector } from "react-redux";
 import MovieList from "./MovieList";
-import Footer from "./Footer";
+
+import { motion, useScroll } from 'framer-motion';
 
 const SecondaryContainer = () => {
   const movies = useSelector((store) => store.movies);
-  // const similarMovies = useSelector(store => store.movies?.similarMovies)
-  const playing = useSelector(store => store.movies?.playing)
-  
-  
-
+  const playing = useSelector((store) => store.movies.playing);
+  const { scrollY } = useScroll();
 
   return (
-    playing ? (
-      movies?.similarMovies && (
-        <div className="bg-black">
-          <div className="md:-mt-44 -mt-20 relative md:pl-6 z-20">
-            <MovieList id="similarMovies" title={"Similar Movies"} movies={movies?.similarMovies} />
-            <MovieList id="nowPlaying" title={"Now Playing"} movies={movies?.nowPlayingMovies} />
-            <MovieList
-              id="upcomingMovies"
-              title={"Upcoming Movies"}
-              movies={movies?.upcomingMovies}
-            />
-            <MovieList id="popularMovies" title={"Popular"} movies={movies?.popularMovies} />
+    movies?.nowPlayingMovies && (
+      <div className="bg-black">
+        <div className="md:-mt-44 -mt-20 relative md:pl-6 z-20">
+          {playing && movies?.similarMovies && (
+            <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+              <MovieList
+                id="similarMovies"
+                title={"Similar Movies"}
+                movies={movies.similarMovies}
+              />
+          </motion.div>
             
-          </div>
-          <Footer/>
-        </div>
-      )
-    ) : (
-      movies?.nowPlayingMovies && (
-        <div className="bg-black">
-          <div className="md:-mt-44 -mt-20 relative md:pl-6 z-20">
-            <MovieList id="nowPlaying" title={"Now Playing"} movies={movies?.nowPlayingMovies} />
+          )}
+
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+            <MovieList
+              id="nowPlaying"
+              title={"Now Playing"}
+              movies={movies.nowPlayingMovies}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+          >
             <MovieList
               id="upcomingMovies"
               title={"Upcoming Movies"}
-              movies={movies?.upcomingMovies}
+              movies={movies.upcomingMovies}
             />
-            <MovieList id="popularMovies" title={"Popular"} movies={movies?.popularMovies} />
+          </motion.div>
 
-            <MovieList id="topRatedMovies" title={"Top Rated"} movies={movies?.topRatedMovies} />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.4 }}
+          >
+            <MovieList
+              id="popularMovies"
+              title={"Popular"}
+              movies={movies.popularMovies}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.6 }}
+          >
+            <MovieList
+              id="topRatedMovies"
+              title={"Top Rated"}
+              movies={movies.topRatedMovies}
+            />
+          </motion.div>
         </div>
-      )
+      </div>
     )
   );
-}
+};
 
 export default SecondaryContainer;

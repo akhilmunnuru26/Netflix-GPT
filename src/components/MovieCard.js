@@ -20,12 +20,7 @@ const MovieCard = ({posterPath,movie}) => {
     
 
   return (
-    // <div onClick={handleClickedMovie} className="md:w-36   first-letter:  md:mx-4  w-20  cursor-pointer hover:scale-110">
-    //     <img
-    //         src={MOVIES_URL + posterPath}
-    //         alt={`${posterPath}`}
-    //     />
-    // </div>
+    
     
 
     <div

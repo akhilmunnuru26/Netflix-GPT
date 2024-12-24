@@ -16,18 +16,23 @@ import TvShowSecondary from "./TvShowSecondary";
 import usePopularTvShows from "../hooks/usePopularTvShows";
 import useTopRatedTvShows from "../hooks/useTopRatedTvShows";
 import Profile from "./Profile";
+import useSearchedMovies from "../hooks/useSearchMovies";
+import { motion, useScroll } from 'framer-motion';
 
 const Browse = () => {
   useNowPlayingMovies();
   usePopularMovies();
   useUpcomingMovies();
   useTopRatedMovies();
+  useSearchedMovies();
   
 
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
+  
   const movies = useSelector((store) => store.movies);
   const showMovies = movies.showMovies
   const showProfile = movies.showProfile
+  const { scrollY } = useScroll();
   
   return (
     <div>
@@ -46,10 +51,11 @@ const Browse = () => {
                
               
             </>
-          )}
-          <div className="">
-            <Footer />
-          </div>
+        )}
+        
+          <Footer />
+        
+          
         </>
       
     </div>

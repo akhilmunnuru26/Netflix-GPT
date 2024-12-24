@@ -13,9 +13,17 @@ const movieSlice = createSlice({
         showMovies:true,
         showProfile: false,
         clickedMovieId: null,
-        playing:false,
+        playing: false,
+        searchedMovies: null,
+        searchMovieInput:null,
     },
-    reducers:{
+    reducers: {
+        addSearchedMovieInput: (state, action) => {
+            state.searchMovieInput = action.payload
+        },
+        addSearchedMovies: (state, action) => {
+            state.searchedMovies = action.payload
+        },
         addNowPlayingMovies : (state,action) => {
             state.nowPlayingMovies = action.payload
         },
@@ -46,7 +54,7 @@ const movieSlice = createSlice({
         togglePlayingMovie: (state) => {
             state.playing = !state.playing
         },
-        toggleProfile: (state,action) => {
+        toggleProfile: (state) => {
             state.showProfile = !state.showProfile
         }
 
@@ -54,6 +62,6 @@ const movieSlice = createSlice({
 })
 
 
-export const { addNowPlayingMovies,togglePlayingMovie,addClickedMovieId,addSimilarMovies,toggleShowMovies,addVideoTrailer,addPopularMovies,addUpcomingMovies, addTopRatedMovies,addClickedMovie,toggleProfile} = movieSlice.actions
+export const {addSearchedMovieInput,addSearchedMovies, addNowPlayingMovies,togglePlayingMovie,addClickedMovieId,addSimilarMovies,toggleShowMovies,addVideoTrailer,addPopularMovies,addUpcomingMovies, addTopRatedMovies,addClickedMovie,toggleProfile} = movieSlice.actions
  
 export default movieSlice.reducer

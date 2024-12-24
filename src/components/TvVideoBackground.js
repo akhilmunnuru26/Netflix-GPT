@@ -8,7 +8,7 @@ const TvVideoBackground = ({ movieId }) => {
   const tvTrailer = useSelector((store) => store.tvShows?.tvVideoTrailer);
   const trailer = tvTrailer;
 
-  console.log("Trailer Key", trailer?.key);
+  // console.log("Trailer Key", trailer?.key);
 
   return (
     <div className="">

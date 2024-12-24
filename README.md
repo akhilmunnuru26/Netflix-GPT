@@ -180,3 +180,7 @@ NetflixGPT page
 // export const persistor = persistStore(appStore);
 
 // export default appStore;
+
+{/* {!moviePlaying && <button onClick={handleClickedMovie} className="icons-container w-24 h-auto text-center bg-white text-black py-1 px-3 text-lg rounded mr-4 hover:bg-opacity-80">
+            <FaPlay className="text-sm mx-2" /> Play
+          </button>} */}
