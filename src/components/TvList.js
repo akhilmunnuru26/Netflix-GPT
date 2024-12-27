@@ -26,7 +26,7 @@ const TvList = ({id, title, tvShows }) => {
    });
  };
 
-  console.log("IN TVLIst Tv Shows: ",tvShows)
+  // console.log("IN TVLIst Tv Shows: ",tvShows)
  
   return (
     <div className="px-8 text-white">

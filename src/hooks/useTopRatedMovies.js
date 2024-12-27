@@ -36,7 +36,7 @@ const useTopRatedMovies = () => {
 
   const cachedData = useMemo(() => {
     const cachedMovies = localStorage.getItem(cacheKey);
-    return cachedMovies ? JSON.parse(cachedMovies) : null;
+    return cachedMovies ? JSON?.parse?.(cachedMovies) : null;
   }, []);
 
   useEffect(() => {
@@ -53,8 +53,8 @@ const useTopRatedMovies = () => {
       API_OPTIONS
     );
     const data = await response.json();
-    dispatch(addTopRatedMovies(data.results));
-    localStorage.setItem(cacheKey, JSON.stringify(data.results));
+    dispatch(addTopRatedMovies(data?.results));
+    localStorage.setItem(cacheKey, JSON.stringify(data?.results));
   };
 };
 

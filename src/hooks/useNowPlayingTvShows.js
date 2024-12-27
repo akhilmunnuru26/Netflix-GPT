@@ -40,11 +40,11 @@ const cacheKey = "now-playing-tv-shows";
 
 const useNowPlayingTvShows = () => {
   const dispatch = useDispatch();
-  const nowPlayingTvShows = useSelector((store) => store.tvShows.nowPlayingTvShows);
+  const nowPlayingTvShows = useSelector((store) => store?.tvShows?.nowPlayingTvShows);
 
   const cachedData = useMemo(() => {
     const cachedTvShows = localStorage.getItem(cacheKey);
-    return cachedTvShows ? JSON.parse(cachedTvShows) : null;
+    return cachedTvShows ? JSON?.parse?.(cachedTvShows) : null;
   }, []);
 
   useEffect(() => {
@@ -61,8 +61,8 @@ const useNowPlayingTvShows = () => {
       API_OPTIONS
     );
     const data = await response.json();
-    dispatch(addNowPlayingTvShows(data.results));
-    localStorage.setItem(cacheKey, JSON.stringify(data.results));
+    dispatch(addNowPlayingTvShows(data?.results));
+    localStorage.setItem(cacheKey, JSON.stringify(data?.results));
   };
 };
 

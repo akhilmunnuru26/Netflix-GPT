@@ -44,38 +44,39 @@
 // export default useTvShowsTrailer;
 
 
-
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addVideoTrailer } from "../utils/movieSlice";
-import { API_OPTIONS } from "../utils/constants";
 import { addTvVideoTrailer } from "../utils/tvSlice";
+import { API_OPTIONS } from "../utils/constants";
 
 const cacheKey = "tv-shows-trailer";
 
-const useTvShowsTrailer = (movieId) => {
+const useTvShowsTrailer = (tvShowId) => {
   const dispatch = useDispatch();
-
   const cachedData = useMemo(() => {
-    const cachedTrailer = localStorage?.getItem(`${cacheKey}-${movieId}`);
-    return cachedTrailer ? JSON?.parse(cachedTrailer) : null;
-  }, [movieId]);
+    const cachedTrailer = localStorage.getItem(`${cacheKey}-${tvShowId}`);
+    if (!cachedTrailer) return null; // Return null if cachedTrailer is empty
+    try {
+      return JSON.parse(cachedTrailer);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }, [tvShowId]);
 
-  const getTvVideos = async () => {
-    const tvSeriesApi = `https://api.themoviedb.org/3/tv/${movieId}/videos`;
-
-    const movieResponse = await fetch(tvSeriesApi, API_OPTIONS);
-    const movieData = await movieResponse?.json();
-    const trailerList = movieData?.results?.filter(
-      (video) => video.type === "Trailer"
-    );
-
-    const trailer = trailerList?.length
-      ? trailerList?.[0]
-      : movieData?.results?.[0];
-    dispatch(addTvVideoTrailer(trailer));
-    localStorage.setItem(`${cacheKey}-${movieId}`, JSON?.stringify(trailer));
-  };
+  const getTvVideos = useCallback(async () => {
+    const tvSeriesApi = `https://api.themoviedb.org/3/tv/${tvShowId}/videos`;
+    try {
+      const response = await fetch(tvSeriesApi, API_OPTIONS);
+      const data = await response.json();
+      const trailerList = data.results.filter((video) => video.type === "Trailer");
+      const trailer = trailerList.length ? trailerList[0] : data.results[0];
+      dispatch(addTvVideoTrailer(trailer));
+      localStorage.setItem(`${cacheKey}-${tvShowId}`, JSON.stringify(trailer));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [tvShowId, dispatch]);
 
   useEffect(() => {
     if (!cachedData) {
@@ -83,7 +84,7 @@ const useTvShowsTrailer = (movieId) => {
     } else {
       dispatch(addTvVideoTrailer(cachedData));
     }
-  }, [cachedData, dispatch, movieId]);
+  }, [getTvVideos, cachedData, dispatch]);
 };
 
 export default useTvShowsTrailer;

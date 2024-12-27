@@ -38,7 +38,7 @@ const usePopularMovies = () => {
 
   const cachedData = useMemo(() => {
     const cachedMovies = localStorage.getItem(cacheKey);
-    return cachedMovies ? JSON.parse(cachedMovies) : null;
+    return cachedMovies ? JSON?.parse?.(cachedMovies) : null;
   }, []);
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { addClickedMovie } from "../utils/movieSlice";
 
 const TvShowCard = ({posterId,tvShow}) => {
   const dispatch = useDispatch()
-  console.log("posterId: ",posterId)
+  // console.log("posterId: ",posterId)
   const showGpt = useSelector(store => store.gpt.showGptSearch)
   if (!posterId) return null;
 

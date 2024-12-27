@@ -33,11 +33,11 @@ const cacheKey = "popular-tv-shows";
 
 const usePopularTvShows = () => {
   const dispatch = useDispatch();
-  const popularTvShows = useSelector((store) => store.tvShows.popularTvShows);
+  const popularTvShows = useSelector((store) => store?.tvShows?.popularTvShows);
 
   const cachedData = useMemo(() => {
     const cachedTvShows = localStorage.getItem(cacheKey);
-    return cachedTvShows ? JSON.parse(cachedTvShows) : null;
+    return cachedTvShows ? JSON?.parse?.(cachedTvShows) : null;
   }, []);
 
   useEffect(() => {
@@ -54,8 +54,8 @@ const usePopularTvShows = () => {
       API_OPTIONS
     );
     const data = await response.json();
-    dispatch(addPopularTvShows(data.results));
-    localStorage.setItem(cacheKey, JSON.stringify(data.results));
+    dispatch(addPopularTvShows(data?.results));
+    localStorage.setItem(cacheKey, JSON.stringify(data?.results));
   };
 };
 

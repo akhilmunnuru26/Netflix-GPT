@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 
 import { Menu, Transition } from "@headlessui/react";
@@ -9,10 +9,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser} from "../utils/userSlice";
 import { toggleGptSearch } from "../utils/gptSlice";
-import {toggleShowMovies,toggleProfile, addClickedMovie, addSearchedMovieInput} from '../utils/movieSlice'
+import {toggleShowMovies,toggleProfile, addClickedMovie, addSearchedMovieInput, addActiveHeaderTab} from '../utils/movieSlice'
 import { Logo } from "../utils/constants";
 import { IoSearchOutline } from "react-icons/io5";
-import { SupportedLanguages } from "../utils/constants";
+import { SupportedLanguages,headerTabs } from "../utils/constants";
 import "./Header.css";
 import { changeLanguage } from "../utils/configSlice";
 import { BiMoviePlay } from "react-icons/bi";
@@ -31,12 +31,13 @@ const Header = () => {
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
   const lang = useSelector((store) => store.config.lang);
   const showMovieSlice = useSelector((store) => store.movies)
-  const showMovies = showMovieSlice.showMovies
   const showProfile = showMovieSlice.showProfile
-  const searchInput = useRef()
-  const searchedMovies = useSearchedMovies()
+  
+
+  
 
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -83,10 +84,7 @@ const Header = () => {
   };
 
   const handleShowMovies = () => {
-    // if (!showMovies) {
-    //   dispatch(addNowPlayingTvShows(null));
-    // }
-
+    
     navigate("/browse")
     dispatch(toggleShowMovies())
     dispatch(addClickedMovie(null));
@@ -95,8 +93,7 @@ const Header = () => {
 
   const handleShowProfile = () => {
     dispatch(toggleProfile())
-    
-      navigate("/browse/profile")
+    navigate("/browse/profile")
       
     
   }
@@ -110,29 +107,21 @@ const Header = () => {
   }
 
   const handleTvShows= () => {
-    // if (!showMovies) {
-    //   dispatch(addNowPlayingTvShows(null));
-    // }
-  dispatch(addClickedMovie(null));
-    // navigate("/browse/Tv");
+    
+    dispatch(addActiveHeaderTab(headerTabs.tvShows))
+    dispatch(addClickedMovie(null));
+    navigate("/browse/Tv");
     dispatch(toggleShowMovies());
   };
 
-  const handleMovieSearch = (e) => {
-    e.preventDefault()
-    // const searchValue = searchInput.current.value;
-    
-    // dispatch(addSearchedMovieInput(searchValue))
-    // Use the searchValue as needed
-    // console.log(searchValue);
-  }
+
 
 
   const handleChangeLanguage = (e) => {
     dispatch(changeLanguage(e.target.value));
   };
 
-// console.log("Search INput Ref",searchInput?.current?.value)
+
 
   return (
     <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-10  flex  flex-row justify-between align-middle my-0">
@@ -150,22 +139,22 @@ const Header = () => {
                 { (
                   <>
 
-                    <form className="flex items-center max-w-sm mx-3">
+                    {/* <form onSubmit={handleSearchSubmit} className="flex items-center max-w-sm mx-3">
                       <label htmlFor="simple-search" className="sr-only">Search</label>
                       <div className="relative w-full">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
                           
                           <MdLocalMovies className="text-white"  />
                         </div>
-                        <input ref={searchInput} type="text" id="simple-search" className="bg-black border outline-none border-gray-800 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Movie Name..."  />
+                        <input onChange={handleSearchInputChange} value={searchInput} type="text" id="simple-search" className="bg-black border outline-none border-gray-800 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Movie Name..."  />
                       </div>
-                      <button onClick={(e) => handleMovieSearch(e)} type="submit" className="p-2.5 ms-2 text-sm font-medium text-white outline-none  bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      <button  type="submit" className="p-2.5 ms-2 text-sm font-medium text-white outline-none  bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                         <span className="sr-only">Search</span>
                       </button>
-                    </form>
+                    </form> */}
 
                     <Link
                       className="rounded-md mx-1 bg-transparent hover:bg-transparent outline-none text-lg cursor-pointer relative"
@@ -213,27 +202,34 @@ const Header = () => {
                     ))}
                   </select>
                 )}
+
                 
-                <button
+                {!showGpt && <Link className="bg-transparent outline-none hover:outline-none hover:bg-transparent" to="/browse/gpt"><button
+                  onClick={() => { dispatch(addActiveHeaderTab(headerTabs.gptSearch)) }}
+                  className="search-button-container invisible md:visible md:text-lg text-sm bg-transparent  md:mx-2 md:py-2 md:px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70 relative"
+                >
+                  
+                  <IoSearchOutline className="text-sm md:text-xl mr-2" />
+                  <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
+                    GPT Search
+                  </span>
+                    
+                  
+                </button></Link>}
+
+                {showGpt && <button
                   onClick={handleGptSearch}
                   className="search-button-container invisible md:visible md:text-lg text-sm bg-transparent  md:mx-2 md:py-2 md:px-3 rounded-md text-white hover:opacity-90 cursor-pointer hover:text-opacity-70 relative"
                 >
-                  {showGpt ? (
-                    <>
-                      {/* <BiMoviePlay className=" text-sm md:text-xl mr-2" /> */}
-                      <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
-                        Home
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <IoSearchOutline className="text-sm md:text-xl mr-2" />
-                      <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
-                        GPT Search
-                      </span>
-                    </>
-                  )}
-                </button>
+                 
+                    
+                  {/* <BiMoviePlay className=" text-sm md:text-xl mr-2" /> */}
+                  <span className="relative before:absolute before:bottom-0 before:left-0 before:w-full before:h-1 before:border-b-2 before:border-transparent before:transition before:duration-300 before:ease-in-out before:scale-x-0 hover:before:border-red-500 hover:before:scale-x-100">
+                    Home
+                  </span>
+                    
+                 
+                </button>}
               </>
             )}
             <Menu as="div" className="relative inline-block text-left">

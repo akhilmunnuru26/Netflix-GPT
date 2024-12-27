@@ -50,6 +50,11 @@ export const API_OPTIONS = {
 
   ] 
   export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY
-  export const TVSHOWS_URL = "https://api.themoviedb.org/3/tv/{series_id}"
+export const TVSHOWS_URL = "https://api.themoviedb.org/3/tv/{series_id}"
+ export const headerTabs = {
+      movies: 'movies',
+      tvShows: 'tvShows',
+      gptSearch: 'gptSearch'
+    }
 
  

@@ -45,7 +45,7 @@ const SecondaryContainer = () => {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.1 }}
           >
             <MovieList
               id="upcomingMovies"
@@ -58,7 +58,7 @@ const SecondaryContainer = () => {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.4 }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.2 }}
           >
             <MovieList
               id="popularMovies"
@@ -71,7 +71,7 @@ const SecondaryContainer = () => {
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.6 }}
+            transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.3 }}
           >
             <MovieList
               id="topRatedMovies"

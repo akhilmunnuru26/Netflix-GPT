@@ -33,42 +33,22 @@ import useTopRatedTvShows from "../hooks/useTopRatedTvShows";
 import Profile from "./Profile";
 
 const BrowseTv = () => {
-//   useNowPlayingMovies();
-//   usePopularMovies();
-//   useUpcomingMovies();
-//   useTopRatedMovies();
+
   useNowPlayingTvShows();
   usePopularTvShows();
   useTopRatedTvShows();
 
   const showGpt = useSelector((store) => store.gpt.showGptSearch);
   const movies = useSelector((store) => store.movies);
-  const showMovies = movies.showMovies;
-  const showProfile = movies.showProfile;
+  // const showMovies = movies.showMovies;
+  // const showProfile = movies.showProfile;
 
   return (
     <div>
       <Header />
-      {showProfile ? (
-        <Profile />
-      ) : (
-        <>
-          {showGpt ? (
-            <GPTSearch />
-          ) : (
-            <>
-              <div>
-                 <TvPageMainCointainer />
-                 <TvShowSecondary />
-            
-              </div>
-            </>
-          )}
-          <div className="">
-            <Footer />
-          </div>
-        </>
-      )}
+      <TvPageMainCointainer />
+      <TvShowSecondary />
+      <Footer />
     </div>
   );
 };

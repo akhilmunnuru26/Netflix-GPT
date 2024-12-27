@@ -52,7 +52,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log("Sign up user creds ", user);
+          // console.log("Sign up user creds ", user);
           updateProfile(auth.currentUser, {
             displayName: fullName.current.value,
             photoURL: "https://example.com/jane-q-user/profile.jpg",
@@ -107,7 +107,7 @@ const Login = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
-          console.log("Sign In error Message ", errorCode, errorMessage);
+          // console.log("Sign In error Message ", errorCode, errorMessage);
         });
     }
   };

@@ -73,7 +73,7 @@ const useMovieTrailer = (movieId) => {
 
   const cachedData = useMemo(() => {
     const cachedMovieVideos = localStorage.getItem(`movie-videos-${movieId}`);
-    return cachedMovieVideos ? JSON.parse(cachedMovieVideos) : null;
+    return cachedMovieVideos ? JSON?.parse?.(cachedMovieVideos) : null;
   }, [movieId]);
 
   useEffect(() => {

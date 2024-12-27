@@ -32,9 +32,9 @@ const GptSearchBar = () => {
       model: "gpt-3.5-turbo",
     });
     if (!gptResults.choices) {
-      console.log("Error in GPT Response");
+      // console.log("Error in GPT Response");
     }
-    console.log(gptResults);
+    // console.log(gptResults);
     const gptMoviesResponse = gptResults.choices[0]?.message.content.split(",");
     const searchedMovies = gptMoviesResponse.map((movie) =>
       searchMovies(movie)

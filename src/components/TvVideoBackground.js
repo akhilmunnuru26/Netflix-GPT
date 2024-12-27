@@ -5,7 +5,7 @@ import useTvShowsTrailer from "../hooks/useTvShowsTrailer";
 const TvVideoBackground = ({ movieId }) => {
   useTvShowsTrailer(movieId);
   
-  const tvTrailer = useSelector((store) => store.tvShows?.tvVideoTrailer);
+  const tvTrailer = useSelector((store) => store?.tvShows?.tvVideoTrailer);
   const trailer = tvTrailer;
 
   // console.log("Trailer Key", trailer?.key);

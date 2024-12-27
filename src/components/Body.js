@@ -55,6 +55,7 @@ import Profile from './Profile';
 import BrowseTv from './BrowseTv';
 import PlayingMovie from './PlayingMovie';
 import ProtectedRoute from './ProtectedRoute';
+import GPTSearch from './GPTSearch';
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -71,6 +72,7 @@ const Body = () => {
             <Route path="Tv" element={<BrowseTv />} />
             <Route path="playing" element={<PlayingMovie />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="gpt" element={<GPTSearch />} />
           </Routes>
         </ProtectedRoute>
       ),

@@ -33,11 +33,11 @@ const cacheKey = "top-rated-tv-shows";
 
 const useTopRatedTvShows = () => {
   const dispatch = useDispatch();
-  const topRatedTvShows = useSelector((store) => store.tvShows?.topRatedTvShows);
+  const topRatedTvShows = useSelector((store) => store?.tvShows?.topRatedTvShows);
 
   const cachedData = useMemo(() => {
     const cachedTvShows = localStorage.getItem(cacheKey);
-    return cachedTvShows ? JSON.parse(cachedTvShows) : null;
+    return cachedTvShows ? JSON?.parse?.(cachedTvShows) : null;
   }, []);
 
   useEffect(() => {
@@ -54,8 +54,8 @@ const useTopRatedTvShows = () => {
       API_OPTIONS
     );
     const data = await response.json();
-    dispatch(addTopRatedTvShows(data.results));
-    localStorage.setItem(cacheKey, JSON.stringify(data.results));
+    dispatch(addTopRatedTvShows(data?.results));
+    localStorage.setItem(cacheKey, JSON.stringify(data?.results));
   };
 };
 

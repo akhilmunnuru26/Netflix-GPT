@@ -42,7 +42,7 @@ const useSimilarMovies = (movie_id) => {
 
     const cachedData = useMemo(() => {
         const cachedMovies = localStorage.getItem(`${cacheKey}-${movie_id}`);
-        return cachedMovies ? JSON.parse(cachedMovies) : null;
+        return cachedMovies ? JSON?.parse?.(cachedMovies) : null;
     }, [movie_id]);
 
     useEffect(() => {
@@ -59,8 +59,8 @@ const useSimilarMovies = (movie_id) => {
             API_OPTIONS
         );
         const data = await response.json();
-        dispatch(addSimilarMovies(data.results));
-        localStorage.setItem(`${cacheKey}-${movie_id}`, JSON.stringify(data.results));
+        dispatch(addSimilarMovies(data?.results));
+        localStorage.setItem(`${cacheKey}-${movie_id}`, JSON.stringify(data?.results));
     };
 };
 

@@ -9,7 +9,7 @@ import Footer from './Footer';
 const PlayingMovie = () => {
     const dispatch = useDispatch()
     const similarMovies = useSelector(store => store.movies?.similarMovies)
-    console.log("similar",similarMovies)
+    // console.log("similar",similarMovies)
     return (
         <>
             <MainContainer />
