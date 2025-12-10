@@ -11,7 +11,7 @@ const VideoBackground = ({ movieId }) => {
  
   const trailer =  movieTrailer;
 
-  // console.log("Trailer Key",trailer?.key)
+  console.log("Trailer Key",trailer?.key)
 
 
   return (

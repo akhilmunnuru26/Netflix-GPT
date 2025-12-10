@@ -1,36 +1,6 @@
-// import { useEffect } from "react";
-// import { API_OPTIONS } from "../utils/constants";
-// import { useDispatch, useSelector } from "react-redux";
-// import { addSimilarMovies } from "../utils/movieSlice";
 
-// const useSimilarMovies = (movie_id) => {
-
-//     useEffect(() => {
-//         // !nowPlayingMovies && getNowPLayingMoviesList();
-//         getSimilarMoviesList();
-//         return (() => {
-//             getSimilarMoviesList();
-//         })
-//     }, []);
-
-//     const similarMovies = useSelector(store => store.movies.similarMovies)
-
-//     const dispatch = useDispatch();
-
-//     const getSimilarMoviesList = async () => {
-//         const response = await fetch(
-//             `https://api.themoviedb.org/3/movie/${movie_id}/similar?language=en-US&page=1`,
-//             API_OPTIONS
-//         );
-//         const data = await response.json();
-//         dispatch(addSimilarMovies(data.results));
-
-//     };
-// };
-
-// export default useSimilarMovies;
 import { useEffect, useMemo } from "react";
-import { API_OPTIONS } from "../utils/constants";
+import { API_OPTIONS, TMDB_API_KEY } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addSimilarMovies } from "../utils/movieSlice";
 
@@ -42,7 +12,13 @@ const useSimilarMovies = (movie_id) => {
 
     const cachedData = useMemo(() => {
         const cachedMovies = localStorage.getItem(`${cacheKey}-${movie_id}`);
-        return cachedMovies ? JSON?.parse?.(cachedMovies) : null;
+        if (cachedMovies === null || cachedMovies === undefined || cachedMovies === 'undefined') return null;
+        try {
+            return JSON.parse(cachedMovies);
+        } catch (error) {
+            console.error('Error parsing cached similar movies:', error);
+            return null;
+        }
     }, [movie_id]);
 
     useEffect(() => {
@@ -55,7 +31,7 @@ const useSimilarMovies = (movie_id) => {
 
     const getSimilarMoviesList = async () => {
         const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movie_id}/similar?language=en-US&page=1`,
+            `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=1`,
             API_OPTIONS
         );
         const data = await response.json();

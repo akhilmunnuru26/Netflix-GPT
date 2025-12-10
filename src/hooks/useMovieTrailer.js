@@ -49,14 +49,14 @@
 import { useMemo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addVideoTrailer } from '../utils/movieSlice';
-import { API_OPTIONS } from '../utils/constants';
+import { API_OPTIONS, TMDB_API_KEY } from '../utils/constants';
 
 const useMovieTrailer = (movieId) => {
   const dispatch = useDispatch();
   const showMovies = useSelector((store) => store.movies.showMovies);
 
   const getMovieVideos = useCallback(async () => {
-    const movieVideoApi = `https://api.themoviedb.org/3/movie/${movieId}/videos`;
+    const movieVideoApi = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${TMDB_API_KEY}`;
     const api = movieVideoApi;
 
     try {
@@ -65,7 +65,13 @@ const useMovieTrailer = (movieId) => {
       const trailerList = movieData?.results?.filter((video) => video.type === 'Trailer');
       const trailer = trailerList?.length ? trailerList?.[0] : movieData?.results?.[0];
       dispatch(addVideoTrailer(trailer));
-      localStorage.setItem(`movie-videos-${movieId}`, JSON.stringify(trailer));
+      if (typeof trailer !== 'undefined') {
+        try {
+          localStorage.setItem(`movie-videos-${movieId}`, JSON.stringify(trailer));
+        } catch (e) {
+          console.warn('Could not cache movie trailer:', e);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -73,7 +79,13 @@ const useMovieTrailer = (movieId) => {
 
   const cachedData = useMemo(() => {
     const cachedMovieVideos = localStorage.getItem(`movie-videos-${movieId}`);
-    return cachedMovieVideos ? JSON?.parse?.(cachedMovieVideos) : null;
+    if (cachedMovieVideos === null || cachedMovieVideos === undefined || cachedMovieVideos === 'undefined') return null;
+    try {
+      return JSON.parse(cachedMovieVideos);
+    } catch (error) {
+      console.error('Error parsing cached movie videos:', error);
+      return null;
+    }
   }, [movieId]);
 
   useEffect(() => {

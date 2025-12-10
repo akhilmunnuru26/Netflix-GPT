@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import language from "../utils/languageConstants";
 import { useRef } from "react";
 import openai from "../utils/openai";
-import { API_OPTIONS } from "../utils/constants";
+import { API_OPTIONS, TMDB_API_KEY } from "../utils/constants";
 import { addGptSuggestedMovies, addOpenAIKey } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
@@ -13,7 +13,7 @@ const GptSearchBar = () => {
 
   const searchMovies = async (movie) => {
     const response = await fetch(
-      "https://api.themoviedb.org/3/search/movie?query=" +
+      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=` +
         movie +
         "&include_adult=false&language=en-US&page=1",
       API_OPTIONS
