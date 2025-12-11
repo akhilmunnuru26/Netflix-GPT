@@ -4,7 +4,7 @@ import MovieCard from "./MovieCard";
 import '../index.css'
 
 
-const MovieList = ({id, title, movies }) => {
+const MovieList = ({id, title, movies, forceClickable = false }) => {
 
 
 
@@ -31,9 +31,9 @@ const MovieList = ({id, title, movies }) => {
   return (
     <div className="px-8 text-white">
       <h1 className="md:text-2xl md:py-4 text-sm py-2">{title}</h1>
-      <div className="relative">
+      <div className="relative group">
         <button
-          className="absolute z-30 left-0 top-1/2 -translate-y-1/2  text-white rounded-full p-2"
+          className="absolute z-30 left-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           onClick={() => handleScroll("left")}
         >
           <svg
@@ -62,12 +62,13 @@ const MovieList = ({id, title, movies }) => {
                 key={movie.id}
                 posterPath={movie?.poster_path}
                 movie={movie}
+                forceClickable={forceClickable}
               />
             ))}
           </div>
         </div>
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2"
+          className="absolute right-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           onClick={() => handleScroll("right")}
         >
           <svg

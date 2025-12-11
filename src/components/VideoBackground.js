@@ -7,16 +7,21 @@ const VideoBackground = ({ movieId }) => {
   useSimilarMovies(movieId)
  
   const movieTrailer = useSelector((store) => store.movies?.videoTrailer);
-  const playing = useSelector((store) => store.movies.playing)
- 
-  const trailer =  movieTrailer;
+  const trailer = movieTrailer;
 
-  console.log("Trailer Key",trailer?.key)
-
+  if (!trailer || !trailer.key) {
+    return (
+      <div className="w-screen aspect-video flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <div className="text-2xl font-bold mb-2">Trailer not available</div>
+          <div className="text-sm opacity-80">No trailer found for this title.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="">
-      
       <iframe
         className="w-screen aspect-video border-none"
         src={

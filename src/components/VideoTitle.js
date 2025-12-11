@@ -27,20 +27,24 @@ const VideoTitle = ({movieId, title, overview }) => {
 
 
   const handleClickedMovie = () => {
-    dispatch(togglePlayingMovie())
-    
-    !showGpt && dispatch(addVideoTrailer(movieId))
-    !showGpt && dispatch(addClickedMovieId(movieId))
-    // dispatch(togglePlayingMovie())
-
     if (moviePlaying) {
-      navigate("/browse")
-    } else {
-      navigate("/browse/playing")
+      // user pressed Back: stop playing and clear state
+      dispatch(togglePlayingMovie());
+      dispatch(addClickedMovie(null));
+      dispatch(addVideoTrailer(null));
+      dispatch(addClickedMovieId(null));
+      navigate("/browse");
+      return;
     }
-   
 
-  }
+    // Start playing
+    dispatch(togglePlayingMovie());
+    if (!showGpt) {
+      dispatch(addVideoTrailer(movieId));
+      dispatch(addClickedMovieId(movieId));
+    }
+    navigate("/browse/playing");
+  };
 
   const handleBackToHome = () => {
     // dispatch(togglePlayingMovie())

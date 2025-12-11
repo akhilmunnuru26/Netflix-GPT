@@ -17,15 +17,10 @@ const TvPageMainCointainer = () => {
      const mainMovie = clickedMovie !== null ?clickedMovie : tvShows?.[0]
     // console.log("Tv Shows",tvShows)
     
-    const {name,overview,id} = mainMovie
-
-    // console.log("Tv Shows Id:",id)
-  
-
   return (
     <div className="mt-0">
-        <TvVideoTitle title={name} overview={overview}/>
-        <TvVideoBackground movieId={id}/>
+        <TvVideoTitle movieId={mainMovie?.id} title={mainMovie?.name} overview={mainMovie?.overview} />
+        <TvVideoBackground movieId={mainMovie?.id} />
       </div>
   )
 }

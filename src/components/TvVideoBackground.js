@@ -8,7 +8,16 @@ const TvVideoBackground = ({ movieId }) => {
   const tvTrailer = useSelector((store) => store?.tvShows?.tvVideoTrailer);
   const trailer = tvTrailer;
 
-  // console.log("Trailer Key", trailer?.key);
+  if (!trailer || !trailer.key) {
+    return (
+      <div className="w-screen aspect-video flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <div className="text-2xl font-bold mb-2">Trailer not available</div>
+          <div className="text-sm opacity-80">No trailer found for this show.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -22,7 +31,6 @@ const TvVideoBackground = ({ movieId }) => {
           "&autoplay=1&mute=1&rel=0&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
         }
         title="YouTube video player"
-        // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       ></iframe>
     </div>
   );

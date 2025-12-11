@@ -1,29 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { OPENAI_KEY } from "./constants"; 
 
 const gptSlice = createSlice({
     name:"gpt",
     initialState:{
         showGptSearch:false,
         gptSuggestedMovies:null,
+        gptSuggestedTv: null,
         gptSearchResults:null,
-        openaikey:OPENAI_KEY,
+        // openaikey removed — OpenAI key is no longer collected in the UI
     },
     reducers:{
         toggleGptSearch:(state,action) => {
             state.showGptSearch = !state.showGptSearch
         },
         addGptSuggestedMovies:(state,action) => {
-            const {movies,gptMovieResults} = action.payload
-            state.gptSuggestedMovies = movies
-            state.gptSearchResults = gptMovieResults
+            const { movies, tv, gptMovieResults } = action.payload;
+            state.gptSuggestedMovies = movies;
+            state.gptSuggestedTv = tv || null;
+            state.gptSearchResults = gptMovieResults;
         },
-        addOpenAIKey: (state,action) => {
-            state.openaikey = action.payload
-        }
+        clearGptSearchResults: (state) => {
+            state.gptSuggestedMovies = null;
+            state.gptSuggestedTv = null;
+            state.gptSearchResults = null;
+        },
+        // addOpenAIKey reducer removed
     }
 })
 
-export const {toggleGptSearch,addGptSuggestedMovies,addOpenAIKey} = gptSlice.actions
+export const { toggleGptSearch, addGptSuggestedMovies, clearGptSearchResults } = gptSlice.actions
 
 export default gptSlice.reducer

@@ -2,7 +2,7 @@
 
 export const Background_logo="https://assets.nflxext.com/ffe/siteui/vlv3/4690cab8-243a-4552-baef-1fb415632f74/web/IN-en-20241118-TRIFECTA-perspective_0b813abc-8365-4a43-a9d8-14c06e84c9f3_small.jpg"
 export const Logo = "https://res.cloudinary.com/dstuhdad3/image/upload/v1701592292/Netflix_Logo_PMS_qcf2nn.png"
-export const TMDB_API_KEY = "14d869623b0e08b3b16d619da2a4b352";
+export const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 export const API_KEY = TMDB_API_KEY;
 export const API_OPTIONS = {
   method: 'GET',

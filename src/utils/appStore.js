@@ -8,6 +8,7 @@ import moviesReducer from './movieSlice';
 import gptReducer from './gptSlice';
 import configReducer from './configSlice';
 import tvShowsReducer from './tvSlice';
+import movieSearchReducer from './movieSearchSlice';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     gpt: gptReducer,
     config: configReducer,
     tvShows: tvShowsReducer,
+    movieSearchEngine: movieSearchReducer,
 });
 
 const persistConfig = {
