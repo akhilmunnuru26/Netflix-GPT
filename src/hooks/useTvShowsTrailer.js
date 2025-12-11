@@ -9,7 +9,7 @@ const useTvShowsTrailer = (tvShowId) => {
   const dispatch = useDispatch();
   const cachedData = useMemo(() => {
     const cachedTrailer = localStorage.getItem(`${cacheKey}-${tvShowId}`);
-    if (!cachedTrailer) return null; // Return null if cachedTrailer is empty
+    if (!cachedTrailer) return null;
     try {
       return JSON.parse(cachedTrailer);
     } catch (error) {
