@@ -3,7 +3,6 @@ import GptMovieSuggestions from "./GptMovieSuggestions";
 import { Background_logo } from "../utils/constants";
 import Footer from "./Footer";
 import Header from "./Header";
-import MovieSearch from "./MovieSearch";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { clearGptSearchResults } from '../utils/gptSlice';
@@ -13,7 +12,6 @@ const GPTSearch = () => {
 
   useEffect(() => {
     return () => {
-      // cleanup GPT search results when this route unmounts
       dispatch(clearGptSearchResults());
     };
   }, [dispatch]);
@@ -28,8 +26,6 @@ const GPTSearch = () => {
           />
         </div>
         <GptSearchBar />
-        
-        {/* <MovieSearch/> */}
         <GptMovieSuggestions />
       </div>
       <div className="mt-32">

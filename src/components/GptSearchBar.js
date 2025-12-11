@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import language from "../utils/languageConstants";
 import { useRef, useEffect, useState } from "react";
-// import openai from "../utils/openai"; // OpenAI flow commented out — using local MovieSearch instead
-// no direct TMDB API usage here — using local MovieSearchEngine
 import { addGptSuggestedMovies } from "../utils/gptSlice";
 import { API_OPTIONS, TMDB_API_KEY } from "../utils/constants";
 import {
@@ -26,17 +24,16 @@ const GptSearchBar = () => {
   const popularTv = useSelector((store) => store.tvShows?.popularTvShows) || [];
   const topRatedTv = useSelector((store) => store.tvShows?.topRatedTvShows) || [];
 
-  // combine available movie lists into one de-duped array
+
   const MOVIES = [...nowPlaying, ...popular, ...upcoming, ...topRated].filter(
     (v, i, a) => v && a.findIndex((t) => t.id === v.id) === i
   );
 
-  // combine TV lists into one de-duped array
+
   const TVS = [...nowPlayingTv, ...popularTv, ...topRatedTv].filter(
     (v, i, a) => v && a.findIndex((t) => t.id === v.id) === i
   );
 
-  // Local MovieSearchEngine (no OpenAI). We keep the old OpenAI flow commented for reference.
   const engineRef = useRef(null);
   const [engineReady, setEngineReady] = useState(false);
 
@@ -68,24 +65,6 @@ const GptSearchBar = () => {
       }
     };
   }, [MOVIES]);
-
-  // Commented out OpenAI-based flow (kept for reference)
-  /*
-  const searchMovies = async (movie) => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=` +
-        movie +
-        "&include_adult=false&language=en-US&page=1",
-      API_OPTIONS
-    );
-    const searchedMovies = await response.json();
-    return searchedMovies;
-  };
-
-  const handleMovieSearch = async () => {
-    // OpenAI flow (commented)
-  };
-  */
 
   const handleMovieSearch = async () => {
     const query = (userSearchText.current.value || '').trim();
@@ -139,7 +118,7 @@ const GptSearchBar = () => {
         minSimilarity: 0.05,
       });
 
-      // Convert engine results to shape expected by GptMovieSuggestions
+
       const moviesStyle = { results: resMovies.map((r) => r.movie) };
       const tvStyle = { results: resTv.map((r) => r.movie) };
 
@@ -155,7 +134,7 @@ const GptSearchBar = () => {
     }
   };
 
-  // OpenAI key removed — no longer collecting key in UI
+
 
   const langKey = useSelector((store) => store.config.lang);
   return (
@@ -179,7 +158,6 @@ const GptSearchBar = () => {
           {language[langKey].searchText}
         </button>
         </>
-        {/* OpenAI key input removed per user request */}
       </form>
       
     </div>
