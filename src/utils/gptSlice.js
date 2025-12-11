@@ -7,7 +7,7 @@ const gptSlice = createSlice({
         gptSuggestedMovies:null,
         gptSuggestedTv: null,
         gptSearchResults:null,
-        // openaikey removed — OpenAI key is no longer collected in the UI
+        
     },
     reducers:{
         toggleGptSearch:(state,action) => {
