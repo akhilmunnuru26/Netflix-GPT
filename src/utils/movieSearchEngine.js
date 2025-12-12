@@ -1,7 +1,4 @@
-// lib/MovieSearchEngine.js
-// Simplified search engine using text matching and genre detection
 
-// TMDB Genre ID to Name mapping
 const GENRE_MAP = {
   28: 'Action',
   12: 'Adventure',
