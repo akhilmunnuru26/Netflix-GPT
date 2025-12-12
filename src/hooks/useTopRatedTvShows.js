@@ -21,9 +21,12 @@ const useTopRatedTvShows = () => {
 
   useEffect(() => {
     const getTopRatedTvShowsList = async () => {
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/tv/top_rated?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
       const response = await fetch(
-        `https://api.themoviedb.org/3/tv/top_rated?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
+        "/api/tv/top-rated"
       );
       const data = await response.json();
       dispatch(addTopRatedTvShows(data?.results));

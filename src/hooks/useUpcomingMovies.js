@@ -21,10 +21,11 @@ const useUpcomingMovies = () => {
 
   useEffect(() => {
     const getUpcomingMoviesList = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
-      );
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/movie/upcoming?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
+      const response = await fetch("/api/upcoming");
       const data = await response.json();
       dispatch(addUpcomingMovies(data.results));
       localStorage.setItem(cacheKey, JSON.stringify(data.results));

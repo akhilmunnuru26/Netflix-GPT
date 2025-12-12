@@ -22,10 +22,11 @@ const useTopRatedMovies = () => {
 
   useEffect(() => {
     const getTopRatedMoviesList = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
-      );
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
+      const response = await fetch(`/api/top-rated`);
       const data = await response.json();
       dispatch(addTopRatedMovies(data?.results));
       localStorage.setItem(cacheKey, JSON.stringify(data?.results));

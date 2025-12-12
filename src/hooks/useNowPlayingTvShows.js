@@ -21,10 +21,15 @@ const useNowPlayingTvShows = () => {
 
   useEffect(() => {
     const getNowPLayingTvShowsList = async () => {
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
       const response = await fetch(
-        `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
+        "/api/tv/now-playing"
       );
+      
+
       const data = await response.json();
       dispatch(addNowPlayingTvShows(data?.results));
       localStorage.setItem(cacheKey, JSON.stringify(data?.results));

@@ -22,10 +22,11 @@ const usePopularMovies = () => {
 
   useEffect(() => {
     const getPopularMoviesList = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
-      );
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
+      const response = await fetch("/api/popular")
       const data = await response.json();
       dispatch(addPopularMovies(data.results));
       localStorage.setItem(cacheKey, JSON.stringify(data.results));

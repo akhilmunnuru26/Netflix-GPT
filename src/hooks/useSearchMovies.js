@@ -33,12 +33,13 @@ const useSearchedMovies = (searchMovieInput) => {
     const getSearchedMoviesList = async (searchMovieInput) => {
         if (!searchMovieInput) return;
         try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
-                    searchMovieInput
-                )}&include_adult=false&language=en-US&page=1`,
-                API_OPTIONS
-            );
+            // const response = await fetch(
+            //     `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
+            //         searchMovieInput
+            //     )}&include_adult=false&language=en-US&page=1`,
+            //     API_OPTIONS
+            // );
+            const response = await fetch("/api/search");
             const data = await response.json();
             dispatch(addSearchedMovies(data.results));
             localStorage.setItem(`${cacheKey}-${searchMovieInput}`, JSON.stringify(data.results));

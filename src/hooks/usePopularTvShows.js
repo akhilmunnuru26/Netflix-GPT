@@ -21,9 +21,12 @@ const usePopularTvShows = () => {
 
   useEffect(() => {
     const getPopularTvShowsList = async () => {
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}`,
+      //   API_OPTIONS
+      // );
       const response = await fetch(
-        `https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}`,
-        API_OPTIONS
+        "/api/tv/popularTv"
       );
       const data = await response.json();
       dispatch(addPopularTvShows(data?.results));

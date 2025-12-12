@@ -13,7 +13,8 @@ const useMovieTrailer = (movieId) => {
     const api = movieVideoApi;
 
     try {
-      const movieResponse = await fetch(api, API_OPTIONS);
+      // const movieResponse = await fetch(api, API_OPTIONS);
+      const movieResponse = await fetch(`/api/movie-trailer?id=${movieId}`);
       const movieData = await movieResponse.json();
       const trailerList = movieData?.results?.filter((video) => video.type === 'Trailer');
       const trailer = trailerList?.length ? trailerList?.[0] : movieData?.results?.[0];
