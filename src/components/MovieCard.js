@@ -1,33 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 //import useMovieTrailer from "../hooks/useMovieTrailer";
 import { MOVIES_URL } from "../utils/constants"
-import { addClickedMovie, togglePlayingMovie } from "../utils/movieSlice";
+import { addClickedMovie } from "../utils/movieSlice";
 import './Header.css'
 
 
 const MovieCard = ({posterPath, movie, forceClickable = false}) => {
   const dispatch = useDispatch()
   const showGpt = useSelector(store => store.gpt.showGptSearch)
-  const navigate = useNavigate()
   if (!posterPath) return null;
 
   
   
 
   const handleClickedMovie = () => {
-    // always set clicked movie in store and set playing state
-    dispatch(addClickedMovie(movie));
-    dispatch(togglePlayingMovie());
-
-    // navigate to the appropriate playing route
-    const isTv = !!movie?.first_air_date || !!movie?.name;
-    if (isTv) {
-      navigate('/browse/Tv/playing');
-    } else {
-      navigate('/browse/playing');
+    if (!showGpt || forceClickable) {
+      dispatch(addClickedMovie(movie));
     }
-  };
+  }
     
 
   return (

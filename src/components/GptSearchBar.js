@@ -1,13 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import language from "../utils/languageConstants";
 import { useRef, useEffect, useState } from "react";
+// import openai from "../utils/openai"; // OpenAI flow commented out — using local MovieSearch instead
+// no direct TMDB API usage here — using local MovieSearchEngine
 import { addGptSuggestedMovies } from "../utils/gptSlice";
-import { API_OPTIONS, TMDB_API_KEY } from "../utils/constants";
-import {
-  addNowPlayingTvShows,
-  addPopularTvShows,
-  addTopRatedTvShows,
-} from "../utils/tvSlice";
 import { MovieSearchEngine } from "../utils/movieSearchEngine";
 
 const GptSearchBar = () => {
@@ -19,21 +15,12 @@ const GptSearchBar = () => {
   const upcoming = useSelector((store) => store.movies.upcomingMovies) || [];
   const topRated = useSelector((store) => store.movies.topRatedMovies) || [];
 
-  // TV lists
-  const nowPlayingTv = useSelector((store) => store.tvShows?.nowPlayingTvShows) || [];
-  const popularTv = useSelector((store) => store.tvShows?.popularTvShows) || [];
-  const topRatedTv = useSelector((store) => store.tvShows?.topRatedTvShows) || [];
-
-
+  // combine available lists into one de-duped array
   const MOVIES = [...nowPlaying, ...popular, ...upcoming, ...topRated].filter(
     (v, i, a) => v && a.findIndex((t) => t.id === v.id) === i
   );
 
-
-  const TVS = [...nowPlayingTv, ...popularTv, ...topRatedTv].filter(
-    (v, i, a) => v && a.findIndex((t) => t.id === v.id) === i
-  );
-
+  // Local MovieSearchEngine (no OpenAI). We keep the old OpenAI flow commented for reference.
   const engineRef = useRef(null);
   const [engineReady, setEngineReady] = useState(false);
 
@@ -66,66 +53,40 @@ const GptSearchBar = () => {
     };
   }, [MOVIES]);
 
+  // Commented out OpenAI-based flow (kept for reference)
+  /*
+  const searchMovies = async (movie) => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=` +
+        movie +
+        "&include_adult=false&language=en-US&page=1",
+      API_OPTIONS
+    );
+    const searchedMovies = await response.json();
+    return searchedMovies;
+  };
+
+  const handleMovieSearch = async () => {
+    // OpenAI flow (commented)
+  };
+  */
+
   const handleMovieSearch = async () => {
     const query = (userSearchText.current.value || '').trim();
     if (!query || !engineRef.current) return;
 
-    // If TV lists are empty, populate them before searching
-    if (!TVS || TVS.length === 0) {
-      try {
-        const nowResp = await fetch(
-          `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_API_KEY}`,
-          API_OPTIONS
-        );
-        const nowData = await nowResp.json();
-        dispatch(addNowPlayingTvShows(nowData?.results || []));
-        try {
-          localStorage.setItem('now-playing-tv-shows', JSON.stringify(nowData?.results || []));
-        } catch (e) {}
-
-        const popResp = await fetch(
-          `https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}`,
-          API_OPTIONS
-        );
-        const popData = await popResp.json();
-        dispatch(addPopularTvShows(popData?.results || []));
-        try {
-          localStorage.setItem('popular-tv-shows', JSON.stringify(popData?.results || []));
-        } catch (e) {}
-
-        const topResp = await fetch(
-          `https://api.themoviedb.org/3/tv/top_rated?api_key=${TMDB_API_KEY}`,
-          API_OPTIONS
-        );
-        const topData = await topResp.json();
-        dispatch(addTopRatedTvShows(topData?.results || []));
-        try {
-          localStorage.setItem('top-rated-tv-shows', JSON.stringify(topData?.results || []));
-        } catch (e) {}
-      } catch (e) {
-        console.error('Error populating TV lists for GPT search', e);
-      }
-    }
-
     try {
-      const resMovies = await engineRef.current.search(query, MOVIES, {
+      const res = await engineRef.current.search(query, MOVIES, {
         topK: 10,
         minSimilarity: 0.05,
       });
 
-      const resTv = await engineRef.current.search(query, TVS, {
-        topK: 10,
-        minSimilarity: 0.05,
-      });
-
-
-      const moviesStyle = { results: resMovies.map((r) => r.movie) };
-      const tvStyle = { results: resTv.map((r) => r.movie) };
-
+      // Convert engine results to shape expected by GptMovieSuggestions
+      // which expects an array of TMDB-like responses with a .results array
+      const tmdbStyle = [{ results: res.map((r) => r.movie) }];
       dispatch(
         addGptSuggestedMovies({
-          movies: moviesStyle,
-          tv: tvStyle,
+          movies: tmdbStyle,
           gptMovieResults: [query],
         })
       );
@@ -134,7 +95,7 @@ const GptSearchBar = () => {
     }
   };
 
-
+  // OpenAI key removed — no longer collecting key in UI
 
   const langKey = useSelector((store) => store.config.lang);
   return (
@@ -158,6 +119,7 @@ const GptSearchBar = () => {
           {language[langKey].searchText}
         </button>
         </>
+        {/* OpenAI key input removed per user request */}
       </form>
       
     </div>

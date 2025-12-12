@@ -3,18 +3,9 @@ import GptMovieSuggestions from "./GptMovieSuggestions";
 import { Background_logo } from "../utils/constants";
 import Footer from "./Footer";
 import Header from "./Header";
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { clearGptSearchResults } from '../utils/gptSlice';
+import MovieSearch from "./MovieSearch";
 
 const GPTSearch = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearGptSearchResults());
-    };
-  }, [dispatch]);
   return (
     <div className="flex flex-col justify-between h-full">
       <Header/>
@@ -26,6 +17,8 @@ const GPTSearch = () => {
           />
         </div>
         <GptSearchBar />
+        
+        {/* <MovieSearch/> */}
         <GptMovieSuggestions />
       </div>
       <div className="mt-32">

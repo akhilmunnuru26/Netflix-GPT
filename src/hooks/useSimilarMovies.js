@@ -21,23 +21,23 @@ const useSimilarMovies = (movie_id) => {
         }
     }, [movie_id]);
 
-    useEffect(() => {
-        if (!cachedData) {
-            getSimilarMoviesList();
-        } else {
-            dispatch(addSimilarMovies(cachedData));
-        }
-    }, [cachedData, dispatch]);
+    // useEffect(() => {
+    //     if (!cachedData) {
+    //         getSimilarMoviesList();
+    //     } else {
+    //         dispatch(addSimilarMovies(cachedData));
+    //     }
+    // }, [cachedData, dispatch]);
 
-    const getSimilarMoviesList = async () => {
-        const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=1`,
-            API_OPTIONS
-        );
-        const data = await response.json();
-        dispatch(addSimilarMovies(data?.results));
-        localStorage.setItem(`${cacheKey}-${movie_id}`, JSON.stringify(data?.results));
-    };
+    // const getSimilarMoviesList = async () => {
+    //     const response = await fetch(
+    //         `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=1`,
+    //         API_OPTIONS
+    //     );
+    //     const data = await response.json();
+    //     dispatch(addSimilarMovies(data?.results));
+    //     localStorage.setItem(`${cacheKey}-${movie_id}`, JSON.stringify(data?.results));
+    // };
 };
 
 export default useSimilarMovies;

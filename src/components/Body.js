@@ -54,7 +54,7 @@ import { RouterProvider } from 'react-router-dom';
 import Profile from './Profile';
 import BrowseTv from './BrowseTv';
 import PlayingMovie from './PlayingMovie';
-import PlayingTv from './PlayingTv';
+// import PlayingTv from './PlayingTv';
 import ProtectedRoute from './ProtectedRoute';
 import GPTSearch from './GPTSearch';
 
@@ -71,7 +71,7 @@ const Body = () => {
           <Routes>
             <Route index element={<Browse />} />
             <Route path="Tv" element={<BrowseTv />} />
-            <Route path="Tv/playing" element={<PlayingTv />} />
+            {/* <Route path="Tv/playing" element={<PlayingTv />} /> */}
             <Route path="playing" element={<PlayingMovie />} />
             <Route path="profile" element={<Profile />} />
             <Route path="gpt" element={<GPTSearch />} />

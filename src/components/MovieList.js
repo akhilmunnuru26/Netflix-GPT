@@ -31,9 +31,9 @@ const MovieList = ({id, title, movies, forceClickable = false }) => {
   return (
     <div className="px-8 text-white">
       <h1 className="md:text-2xl md:py-4 text-sm py-2">{title}</h1>
-      <div className="relative group">
+      <div className="relative">
         <button
-          className="absolute z-30 left-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="absolute z-30 left-0 top-1/2 -translate-y-1/2  text-white rounded-full p-2"
           onClick={() => handleScroll("left")}
         >
           <svg
@@ -68,7 +68,7 @@ const MovieList = ({id, title, movies, forceClickable = false }) => {
           </div>
         </div>
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="absolute right-0 top-1/2 -translate-y-1/2 text-white rounded-full p-2"
           onClick={() => handleScroll("right")}
         >
           <svg
