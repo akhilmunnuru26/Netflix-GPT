@@ -22,10 +22,11 @@ const useNowPlayingMovies = () => {
 
   useEffect(() => {
     const getNowPLayingMoviesList = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_API_KEY}&page=1`,
-        API_OPTIONS
-      );
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_API_KEY}&page=1`,
+      //   API_OPTIONS
+      // );
+      const response = await fetch("/api/now-playing");
       const data = await response.json();
       dispatch(addNowPlayingMovies(data.results));
       localStorage.setItem(cacheKey, JSON.stringify(data.results));
